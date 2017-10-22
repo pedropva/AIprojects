@@ -28,3 +28,13 @@ class Node:
             if neighbor[0] == node:
                 return neightbor[1]
         return -1
+
+    @staticmethod
+    def printNodes(listOfNodes):
+        for node in listOfNodes.values():
+            print('Node Name:',node.getName())
+            print('Expectation: ',node.getExpectation())
+            print('Neighbor: ')
+            for neighbor in node.getNeighbors():
+                print('Node: ' , neighbor[0].getName() , ' Wheight:', neighbor[1])
+            print()

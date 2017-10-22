@@ -1,69 +1,98 @@
+import os
 from Node import Node
 from Search import Search
+from Data import Data
 
-neighbors = {
- 'Arad':('Sibiu','Timisoara','Zerind'),
- 'Zerind':('Arad','Oradea'),
- 'Oradea':('Sibiu','Zerind'),
- 'Timisoara':('Arad','Lugoj'),
- 'Lugoj':('Mehadia','Timisoara'),
- 'Mehadia':('Drobeta','Lugoj'),
- 'Drobeta':('Craiova','Mehadia'),
- 'Craiova':('Drobeta','Pitesti','Rimnicu'),
- 'Sibiu':('Arad','Fagaras','Oradea','Rimnicu'),
- 'Fagaras':('Bucareste','Sibiu'),
- 'Rimnicu':('Craiova','Pitesti','Sibiu'),
- 'Pitesti':('Bucareste','Craiova','Rimnicu'),
- 'Neamt':('Iasi',),
- 'Iasi':('Neamt','Vaslui'),
- 'Vaslui':('Iasi','Urziceni'),
- 'Bucareste':('Fagaras','Giurgiu','Pitesti','Urziceni'),
- 'Giurgiu':('Bucareste',),
- 'Urziceni':('Bucareste','Hirsova','Vaslui'),
- 'Hirsova':('Eforie','Urziceni'),
- 'Eforie':('Hirsova',),
-}
-distances={
- 'Arad':(140,118,75),
- 'Zerind':(75,71),
- 'Oradea':(151,71),
- 'Timisoara':(118,111),
- 'Lugoj':(70,111),
- 'Mehadia':(75,70),
- 'Drobeta':(120,75),
- 'Craiova':(120,138,146),
- 'Sibiu':(140,99,151,80),
- 'Fagaras':(211,99),
- 'Rimnicu':(146,97,80),
- 'Pitesti':(101,138,97),
- 'Neamt':(87,),
- 'Iasi':(87,92),
- 'Vaslui':(92,142),
- 'Bucareste':(211,90,101,85),
- 'Giurgiu':(90,),
- 'Urziceni':(85,98,142),
- 'Hirsova':(86,98),
- 'Eforie':(86,),
-}
-namesOfCities = ['Arad','Zerind','Oradea','Timisoara','Lugoj','Mehadia','Drobeta','Craiova','Sibiu','Fagaras','Rimnicu','Pitesti','Neamt','Iasi','Vaslui','Bucareste','Giurgiu','Urziceni','Hirsova','Eforie']
+cities = Data.cities()
 
-cities= {}
-for i in namesOfCities:
-	cities[i] = Node(i,0)
+def Main():
+    option = 0
+    option1 = 0
+    start = None
+    finisht = None
+    while True:
+        os.system('cls')
+        if(option == 0):
+            option=0
+            print('{:=^15}'.format(' Menu '))
+            print('What do you want to do?')
+            print('1-List Data from nodes')
+            print('2-Path to City')
+            print('3-Chicken, Fox and Wheat')
+            print('4-Puzzle with numbers')
+            print("5-Exit")
+            option = int(input("Option:"))
 
+        elif(option == 1):
+            option=0
+            while True:
+                os.system('cls')
+                print('Choose the data to be shown:')
+                print('0-return to menu')
+                print('1-Cities')
+                print('2-Chicken, Fox and Wheat')
+                print('3-Puzzle with numbers')
+                option1 = int(input("Option: "))
+                if(option1 == 0):
+                    break
+                elif(option1 == 1):
+                    Node.printNodes(cities)
+                    input()
+                elif(option1 == 2):
+                    Node.printNodes(cities)
+                    input()
+                elif(option1 == 3):
+                    Node.printNodes(cities)
+                    input()
+                else:
+                    print('Invalid input!')
+        elif(option == 2):
+            option=0
+            while True:
+                os.system('cls')
+                print('Choose algorithm:')
+                print('0-return to menu')
+                print('1-BFS')
+                print('2-Djikstra')
+                print('3-A*')
+                option1 = int(input("Option:"))
+                if(option1 == 0):
+                    break
+                elif(option1 == 1):
+                    start = input("Departure:").title()
+                    finish = input("Destination:").title()
+                    result = Search.bfs(cities[start],cities[finish])
+                    print("Result:",result[1])
+                    input()
+                elif(option1 == 2):
+                    start = input("Departure:").title()
+                    finish = input("Destination:").title()
+                    result = Search.djikstra(cities[start],cities[finish])
+                    print("Result:",result[1],' with cost: ', result[2])
+                    input()
+                elif(option1 == 3):
+                    start = input("Departure:").title()
+                    print("Only destination is avaliable bucharest, no heuristics data for the other ones")
+                    result = Search.aStar(cities[start],cities['Bucareste'])
+                    print("Result:",result[1],' with cost: ', result[2])
+                    input()
+                else:
+                    print('Invalid input!')
+        elif(option == 2):
+            option=0
+            os.system('cls')
+        elif(option == 3):
+            option=0
+            os.system('cls')
+        elif(option == 4):
+            option=0
+            os.system('cls')
+        elif(option == 5):
+            break
+        else:
+            print('Invalid input!')
 
-for city in cities.keys():
-	for neighbor in neighbors[city]:
-		cities[city].addNeighbor(cities[neighbor],distances[city][neighbors[city].index(neighbor)])
-
-result = Search.BFS(cities['Arad'],cities['Bucareste'])
-for city in result:
-	print('Cidade: ' + city.getName())
-	##print('Expectation: ',city.getExpectation())
-	##print('Vizinhos: ')
-	##for neighbor in city.getNeighbors():
-	##	print('Vizinho: ' + neighbor[0].getName() + ' distancia:',neighbor[1])
-	##print()
+Main()
 '''
 
 
