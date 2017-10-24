@@ -2,9 +2,10 @@ import os
 from Node import Node
 from Search import Search
 from Data import Data
+from Utils import Utils
 
 cities = Data.cities()
-
+situations = Data.cfg()
 def Main():
     option = 0
     option1 = 0
@@ -18,7 +19,7 @@ def Main():
             print('What do you want to do?')
             print('1-List Data from nodes')
             print('2-Path to City')
-            print('3-Chicken, Fox and Wheat')
+            print('3-Chicken, Fox and Grains')
             print('4-Puzzle with numbers')
             print("5-Exit")
             option = int(input("Option:"))
@@ -39,7 +40,7 @@ def Main():
                     Node.printNodes(cities)
                     input()
                 elif(option1 == 2):
-                    Node.printNodes(cities)
+                    Node.printNodes(situations)
                     input()
                 elif(option1 == 3):
                     Node.printNodes(cities)
@@ -62,83 +63,87 @@ def Main():
                     start = input("Departure:").title()
                     finish = input("Destination:").title()
                     result = Search.bfs(cities[start],cities[finish])
-                    print("Result:",result[1])
+                    if result != False:
+                        print()
+                        print("Result:",result[1])
+                    else:
+                        print('Found no path')
                     input()
                 elif(option1 == 2):
                     start = input("Departure:").title()
                     finish = input("Destination:").title()
                     result = Search.djikstra(cities[start],cities[finish])
-                    print("Result:",result[1],' with cost: ', result[2])
+                    if result != False:
+                        print()
+                        print("Result:",result[1],' with cost: ', result[2])
+                    else:
+                        print('Found no path')
                     input()
                 elif(option1 == 3):
                     start = input("Departure:").title()
                     print("Only destination is avaliable bucharest, no heuristics data for the other ones")
                     result = Search.aStar(cities[start],cities['Bucareste'])
-                    print("Result:",result[1],' with cost: ', result[2])
+                    if result != False:
+                        print()
+                        print("Result:",result[1],' with cost: ', result[2])
+                    else:
+                        print('Found no path')
                     input()
                 else:
                     print('Invalid input!')
-        elif(option == 2):
-            option=0
-            os.system('cls')
         elif(option == 3):
             option=0
             os.system('cls')
+            print('Insert the desired starting and final states,use the first caracther of each word, and put them separated by a comma and separating left and right side of the river by a |')
+            print("boatman = 'b', chicken = 'c', fox = 'f' and grains = 'g'")
+            print('Example of state: b,c,f|g')
+            print()
+            start = input("Starting state:").lower()
+            finish = input("Final state:").lower()
+            start=Data.cfgCode(start)
+            finish=Data.cfgCode(finish)
+            if(start != False and finish != False and Utils.isInList(situations.keys(),start) and Utils.isInList(situations.keys(),finish)):
+                result = Search.bfs(situations[start],situations[finish])##checks if those are valid states and if they are then search best path
+                if result != False:
+                    print()
+                    print("Result:")
+                    Data.cfgDecode(result[1])
+                    print('With cost: ', result[2])
+                else:
+                    print('Found no path')
+            else:
+                print('Invalid State!')
+            input()
         elif(option == 4):
             option=0
             os.system('cls')
+            print('Fill the intial matrix:')
+            '''
+            start = [[int(input("[Line 1 column 1]: ")),
+                    int(input("[Line 1 column 2]: ")),
+                    int(input("[Line 1 column 3]: "))],
+                    [int(input("[Line 2 column 1]: ")),
+                    int(input("[Line 2 column 2]: ")),
+                    int(input("[Line 2 column 3]: "))],
+                    [int(input("[Line 3 column 1]: ")),
+                    int(input("[Line 3 column 2]: ")),
+                    int(input("[Line 3 column 3]: "))]]
+            '''
+            finish = [[0,1,2],[3,4,5],[6,7,8]]
+            start = Data.puzzle([[8,7,6],[5,4,3],[2,1,0]],finish)##Data.puzzle(start,finish)##creating the node with the matrix itself and the objective matrix
+            finish = Data.puzzle(finish,finish)
+            if(start and finish):
+                result = Search.aStar(start,finish)
+                if result != False:
+                    print()
+                    print("Result:")
+                    Data.puzzleDecode(result[1])
+                else:
+                    print('Found no path')
+            input()    
         elif(option == 5):
             break
         else:
             print('Invalid input!')
 
 Main()
-'''
-
-
-def nosso_in(elemento,L):
-    presente = False
-    for i in range(len(L)):
-        if elemento == L[i][0][-1]:
-            presente = True
-            break
-    return presente
-
-def objetivo(estado):
-    return estado=='Bucareste'
-
-def meu_criterio(x):
-    return x[1]
-
-estado_inicial = [['Arad'],0]
-
-B = [] #fila
-E = []
-
-B.append(estado_inicial)
-achei = False
-while not achei:
-  if (len(B)==0):
-    break
-  #B = sorted(B,key=meu_criterio)
-  no = B[0][:]
-  del B[0]
-  E.append(no[0][-1])
-  
-  for vizinho in vizinhos[no[0][-1]]:
-      if not nosso_in(vizinho,B) and not vizinho in E:
-          e = vizinhos[no[0][-1]].index(vizinho)
-          d = distancias[no[0][-1]][e]  
-          if objetivo(vizinho):
-            no[0].append(vizinho)
-            no[1] += d
-            achei = True
-            break
-          B.append([ no[0] + [vizinho], no[1]+ d  ])
-          
-  
-if achei: 
-  print(no)
-else:
-  print('Nao achei.')
-'''
