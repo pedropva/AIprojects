@@ -73,7 +73,14 @@ class Data:
 ##b,c,g,f|
     @staticmethod
     def puzzleDecode(path):
-        print(path)
+        path = path.split('],[')
+        for l in path:
+                l = l.split('], [')
+                for r in l:
+                    r = r.replace("]", "")
+                    r = r.replace("[", "")
+                    print(r)
+                print()
 
     @staticmethod
     def insertPriorityHeuristics(queue,node):##inserting in a priority queue comparing their wheights and their heuristics, used for aStar search
@@ -93,3 +100,18 @@ class Data:
             if item[0].getName() == obj.getName():##testing two nodes, i use [0] because every traveled node is a list with the node itself and the string with the path to him
                 return True
         return False
+
+    @staticmethod
+    def isAValidMAtrix(matrix):
+        maxN = len(matrix) * len(matrix[0])
+        minN = 0
+        numbers= []
+        for l in matrix:
+            for r in l:
+                if r > maxN or r < minN:
+                    return False
+                if r not in numbers:
+                    numbers.append(r)
+                else:
+                    return False
+        return True

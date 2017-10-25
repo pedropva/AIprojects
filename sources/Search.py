@@ -44,17 +44,17 @@ class Search:
     @staticmethod
     def aStar(initial, final):
         traveled = [] ##traveled nodes, [node,string with the path traveled to that node,cost to get there]
-        queue = [[initial,[str(initial.getName())],0]] ##nodes in queue to be traveled, [node,string with the path traveled to that node,cost to get there]
+        queue = [[initial,str(initial.getName()),0]] ##nodes in queue to be traveled, [node,string with the path traveled to that node,cost to get there]
         exploring = None
         while queue:
             if not Data.isInList(traveled,queue[0][0]):## in each neighbor there is a list with the node itself and the distance
                     traveled.append(copy.deepcopy(queue[0])) ##travel the first node in the queue
-                    if queue[0][0] == final:
+                    if queue[0][0].getName() == final.getName():
                         return traveled[-1]
                     exploring = queue.pop(0) ##make a copy of the first node on queue and remove it from queue
                     for i in exploring[0].getNeighbors():
                         if not Data.isInList(traveled,i[0]):## in each neighbor there is a list with the node itself and the distance
-                            new = [i[0],exploring[1].append('a'),exploring[2]+i[1]] ##remove the .append('a') to make it run!
+                            new = [i[0],exploring[1]+','+str(i[0].getName()),exploring[2]+i[1]] ##remove the .append('a') to make it run!
                             print('traveled nodes: ',len(traveled))
                             Data.insertPriorityHeuristics(queue,new)
                             ##print('after: ', queue)

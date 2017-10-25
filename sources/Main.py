@@ -113,7 +113,7 @@ def Main():
                     print('Found no path')
             else:
                 print('Invalid State!')
-            input()
+                input()                
         elif(option == 4):
             option=0
             os.system('cls')
@@ -129,18 +129,36 @@ def Main():
                     int(input("[Line 3 column 2]: ")),
                     int(input("[Line 3 column 3]: "))]]
             '''
-            finish = [[0,1,2],[3,4,5],[6,7,8]]
-            start = Data.puzzle([[8,7,6],[5,4,3],[2,1,0]],finish)##Data.puzzle(start,finish)##creating the node with the matrix itself and the objective matrix
-            finish = Data.puzzle(finish,finish)
-            if(start and finish):
-                result = Search.aStar(start,finish)
-                if result != False:
-                    print()
-                    print("Result:")
-                    Data.puzzleDecode(result[1])
-                else:
-                    print('Found no path')
-            input()    
+            #[[0,1,2],[3,4,5],[6,7,8]] # closest test, 1 node traveled
+            #[[1,0,2],[3,4,5],[6,7,8]] # 2 nodes traveled
+            #[[1,4,2],[3,0,5],[6,7,8]] # 5 nodes traveled 
+            #[[1,4,2],[3,5,0],[6,7,8]] # 13 nodes traveled 
+            #[[1,4,2],[3,5,8],[6,7,0]] # 16 nodes traveled 
+            #[[1,4,2],[3,5,8],[6,0,7]] # 45 nodes traveled 
+            #[[1,4,2],[3,5,8],[0,6,7]] # 59 nodes traveled 
+            #[[1,4,2],[0,5,8],[3,6,7]] # 76 nodes traveled 
+
+            #[[8,7,6],[5,4,3],[2,1,0]] #impossible test
+            start = [[8,7,6],[5,4,3],[2,1,0]] # 76 nodes traveled 
+
+            for l in start:
+                print(l)
+            if not Data.isAValidMAtrix(start):
+                print('Invalid input!')
+                input()
+            else:
+                finish = [[0,1,2],[3,4,5],[6,7,8]]
+                start = Data.puzzle(start,finish)##Data.puzzle(start,finish)##creating the node with the matrix itself and the objective matrix
+                finish = Data.puzzle(finish,finish)
+                if(start and finish):
+                    result = Search.aStar(start,finish)
+                    if result != False:
+                        print()
+                        print("Result:")
+                        Data.puzzleDecode(result[1])
+                    else:
+                        print('Found no path')
+                input()    
         elif(option == 5):
             break
         else:

@@ -52,8 +52,9 @@ class Utils:
         for line in matrix:
             y = 0;
             for number in line:
-                idealLine, idealColumn = Utils.getIdealPosition(number,objective)
-                expectation += (abs( x - idealLine) + abs(y - idealColumn))
+                if number != 0:
+                    idealLine, idealColumn = Utils.getIdealPosition(number,objective)
+                    expectation += (abs( x - idealLine) + abs(y - idealColumn))
         return expectation
 
     @staticmethod
