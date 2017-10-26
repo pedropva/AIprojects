@@ -30,7 +30,7 @@ class Node:
         return self.expectation
 
     def getNeighbors(self):
-        if(not self.name[0][0]):##testing if the name is a matrix, so its the number puzzle 
+        if(not isinstance(self.name, list)):##testing if the name is a matrix, so its the number puzzle 
             return self.neighbors
         else:
             neighborNodes = []
@@ -38,7 +38,9 @@ class Node:
                 newNode = Node(i,1)
                 if(newNode.getObjective() == None and self.objective != None):##if objective not set then set
                     newNode.setObjective(self.objective)
+                #print('no: ',i,' objetivo: ',newNode.getObjective())
                 newNode.setExpectation(Utils.getExpectationOfMatrix(i,newNode.getObjective()))
+                #print('expectation: ',newNode.getExpectation())
                 neighborNodes.append([newNode,1])##COST OF EACH PATH IS HERE
             return neighborNodes
     

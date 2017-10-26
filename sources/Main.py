@@ -32,7 +32,6 @@ def Main():
                 print('0-return to menu')
                 print('1-Cities')
                 print('2-Chicken, Fox and Wheat')
-                print('3-Puzzle with numbers')
                 option1 = int(input("Option: "))
                 if(option1 == 0):
                     break
@@ -41,9 +40,6 @@ def Main():
                     input()
                 elif(option1 == 2):
                     Node.printNodes(situations)
-                    input()
-                elif(option1 == 3):
-                    Node.printNodes(cities)
                     input()
                 else:
                     print('Invalid input!')
@@ -96,7 +92,7 @@ def Main():
             os.system('cls')
             print('Insert the desired starting and final states,use the first caracther of each word, and put them separated by a comma and separating left and right side of the river by a |')
             print("boatman = 'b', chicken = 'c', fox = 'f' and grains = 'g'")
-            print('Example of state: b,c,f|g')
+            print('Example of state: b,c,f,g|')
             print()
             start = input("Starting state:").lower()
             finish = input("Final state:").lower()
@@ -108,7 +104,7 @@ def Main():
                     print()
                     print("Result:")
                     Data.cfgDecode(result[1])
-                    print('With cost: ', result[2])
+                    input()   
                 else:
                     print('Found no path')
             else:
@@ -118,7 +114,6 @@ def Main():
             option=0
             os.system('cls')
             print('Fill the intial matrix:')
-            '''
             start = [[int(input("[Line 1 column 1]: ")),
                     int(input("[Line 1 column 2]: ")),
                     int(input("[Line 1 column 3]: "))],
@@ -128,23 +123,14 @@ def Main():
                     [int(input("[Line 3 column 1]: ")),
                     int(input("[Line 3 column 2]: ")),
                     int(input("[Line 3 column 3]: "))]]
-            '''
-            #[[0,1,2],[3,4,5],[6,7,8]] # closest test, 1 node traveled
-            #[[1,0,2],[3,4,5],[6,7,8]] # 2 nodes traveled
-            #[[1,4,2],[3,0,5],[6,7,8]] # 5 nodes traveled 
-            #[[1,4,2],[3,5,0],[6,7,8]] # 13 nodes traveled 
-            #[[1,4,2],[3,5,8],[6,7,0]] # 16 nodes traveled 
-            #[[1,4,2],[3,5,8],[6,0,7]] # 45 nodes traveled 
-            #[[1,4,2],[3,5,8],[0,6,7]] # 59 nodes traveled 
-            #[[1,4,2],[0,5,8],[3,6,7]] # 76 nodes traveled 
-
-            #[[8,7,6],[5,4,3],[2,1,0]] #impossible test
-            start = [[8,7,6],[5,4,3],[2,1,0]] # 76 nodes traveled 
-
+            print('Initial matrix:')
             for l in start:
                 print(l)
             if not Data.isAValidMAtrix(start):
                 print('Invalid input!')
+                input()
+            elif (not Data.isSolvable(start,True)):#second argument is True of the number of invertions on the final matrix is pair else is false
+                print('Unsolvable!')
                 input()
             else:
                 finish = [[0,1,2],[3,4,5],[6,7,8]]
@@ -155,7 +141,7 @@ def Main():
                     if result != False:
                         print()
                         print("Result:")
-                        Data.puzzleDecode(result[1])
+                        Data.puzzleDecode(result[1],result[2])
                     else:
                         print('Found no path')
                 input()    

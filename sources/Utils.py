@@ -37,7 +37,7 @@ class Utils:
                     if(not y == maxLen):
                         newState = Utils.copyMatrix(matrix)
                         newState[x][y], newState[x][y+1] = newState[x][y+1], newState[x][y]
-                        possibilities.append(newState)
+                        possibilities.append(newState)     
                     found = True;
                 if(found): break;
                 y += 1
@@ -48,25 +48,28 @@ class Utils:
 
     def getExpectationOfMatrix(matrix,objective):
         expectation = 0
-        x = 0;
-        for line in matrix:
-            y = 0;
-            for number in line:
-                if number != 0:
-                    idealLine, idealColumn = Utils.getIdealPosition(number,objective)
+        x = 0
+        for l in matrix:
+            y = 0
+            for n in l:
+                if n != 0:
+                    idealLine, idealColumn = Utils.getIdealPosition(n,objective)
                     expectation += (abs( x - idealLine) + abs(y - idealColumn))
+                y = y + 1
+            x = x + 1
         return expectation
 
     @staticmethod
     def getIdealPosition(n,objective):
-        x = 0;
-        for line in objective:
-            y = 0;
-            for number in line:
-                if(number == n):
-                    return x, y;
+        x = 0
+        for l in objective:
+            y = 0
+            for numbero in l:
+                if(numbero == n):
+                    return x,y
                 y += 1
             x += 1
+
 
     @staticmethod
     def getNeighborMatrixes(matrix):
@@ -82,3 +85,10 @@ class Utils:
         for l in matrix:
             newMatrix.append(l[:])
         return newMatrix
+
+    @staticmethod
+    def isInList(list, obj):
+        for item in list:
+            if item == obj:##testing two nodes, i use [0] because every traveled node is a list with the node itself and the string with the path to him
+                return True
+        return False

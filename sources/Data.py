@@ -57,22 +57,18 @@ class Data:
         
     @staticmethod
     def cfgCode(state):
+        if(len(state) != 8):return False
         for i in state:
-                if(not((i == 'b') or (i == 'c') or (i == 'f') or (i == 'g') or (i == '') or (i == '|') or (i == ','))):return False
+            if(not((i == 'b') or (i == 'c') or (i == 'f') or (i == 'g') or (i == '|') or (i == ','))):return False
         state = state.split('|')
-        if(state[0] and state[1]):
-            l = state[0][:]
-            r = state[1][:]
-        else:
-            return False
+        l = state[0][:]
+        r = state[1][:]
         l = sorted(l.split(','))
-        r = sorted(r.split(','))    
-        if(l and r):    
-           return ''.join(l) +'|'+ ''.join(r)
-        return False
-##b,c,g,f|
+        r = sorted(r.split(','))        
+        return ''.join(l) +'|'+ ''.join(r)
+
     @staticmethod
-    def puzzleDecode(path):
+    def puzzleDecode(path,cost):
         path = path.split('],[')
         for l in path:
                 l = l.split('], [')
@@ -81,13 +77,14 @@ class Data:
                     r = r.replace("[", "")
                     print(r)
                 print()
+        print('With cost: ',cost)
 
     @staticmethod
     def insertPriorityHeuristics(queue,node):##inserting in a priority queue comparing their wheights and their heuristics, used for aStar search
         if(queue):
             x = 0
             for q in queue:
-                if(node[2]+node[0].getExpectation() < q[2]):
+                if(node[2]+node[0].getExpectation() < q[2]+ q[0].getExpectation()):
                     queue.insert(x,node)
                     return
                 x += 1
@@ -115,3 +112,23 @@ class Data:
                 else:
                     return False
         return True
+
+    @staticmethod
+    def isSolvable(matrix,finalMatrixIsPair):
+        maxLenLines = len(matrix)
+        maxLenRows = len(matrix[0])
+        invertions = 0
+        x=0
+        y=0
+        x1=0
+        y1=0
+        for x in range(0,maxLenLines):
+            for y in range(0,maxLenRows):
+                for x1 in range(x,maxLenLines):
+                    for y1 in range(y,maxLenRows):
+                        if((x+y < x1+y1) and (matrix[x][y] > matrix[x1][y1])):
+                            invertions = invertions + 1
+        if((invertions%2==0) == (finalMatrixIsPair)):
+            return True
+        else:
+            return False
